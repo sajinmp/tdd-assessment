@@ -56,6 +56,24 @@ RSpec.describe StringCalculator do
           end
         end
       end
+
+      context "with a custom delimiter" do
+        context "when numbers are 1 and 2 and delimiter is semicolon" do
+          let(:input) { "//;\n1;2" }
+
+          it "returns 3" do
+            expect(subject).to eq(3)
+          end
+        end
+
+        context "when numbers are 1,2,3,4 and delimiter is question mark" do
+          let(:input) { "//?\n1?2?3?4" }
+
+          it "returns 10" do
+            expect(subject).to eq(10)
+          end
+        end
+      end
     end
   end
 end
