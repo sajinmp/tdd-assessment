@@ -13,10 +13,20 @@ RSpec.describe StringCalculator do
     end
 
     context "when input is one number" do
-      let(:input) { "1" }
+      context "when number is positive" do
+        let(:input) { "1" }
 
-      it "returns the number" do
-        expect(subject).to eq(1)
+        it "returns the number" do
+          expect(subject).to eq(1)
+        end
+      end
+
+      context "when number is negative" do
+        let(:input) { "-1" }
+
+        it "raises an exception with the correct error message" do
+          expect { subject }.to raise_error(StandardError, "negative numbers not allowed -1")
+        end
       end
     end
 
@@ -55,6 +65,24 @@ RSpec.describe StringCalculator do
             expect(subject).to eq(10)
           end
         end
+
+        context "when input has negative numbers" do
+          context "when there is only one negative number" do
+            let(:input) { "1,-2,3" }
+
+            it "raises an exception with the correct error message" do
+              expect { subject }.to raise_error(StandardError, "negative numbers not allowed -2")
+            end
+          end
+
+          context "when there are multiple negative numbers" do
+            let(:input) { "1,-2,3,-4" }
+
+            it "raises an exception with the correct error message" do
+              expect { subject }.to raise_error(StandardError, "negative numbers not allowed -2,-4")
+            end
+          end
+        end
       end
 
       context "with a custom delimiter" do
@@ -71,6 +99,24 @@ RSpec.describe StringCalculator do
 
           it "returns 10" do
             expect(subject).to eq(10)
+          end
+        end
+
+        context "when input has negative numbers" do
+          context "when there is only one negative number" do
+            let(:input) { "//;\n1;-2;3" }
+
+            it "raises an exception with the correct error message" do
+              expect { subject }.to raise_error(StandardError, "negative numbers not allowed -2")
+            end
+          end
+
+          context "when there are multiple negative numbers" do
+            let(:input) { "//;\n1;-2;3;-4" }
+
+            it "raises an exception with the correct error message" do
+              expect { subject }.to raise_error(StandardError, "negative numbers not allowed -2,-4")
+            end
           end
         end
       end
